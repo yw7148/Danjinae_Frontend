@@ -1,4 +1,4 @@
-package com.dnajinae.web;
+package com.danjinae.web;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

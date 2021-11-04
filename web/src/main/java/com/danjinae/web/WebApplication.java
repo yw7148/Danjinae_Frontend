@@ -1,4 +1,4 @@
-package com.dnajinae.web;
+package com.danjinae.web;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
