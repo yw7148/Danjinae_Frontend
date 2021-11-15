@@ -1,6 +1,4 @@
-package com.danjinae.web.HttpRequest.RequestDTO;
-
-import java.sql.Timestamp;
+package com.danjinae.web.notice.RequestDTO;
 
 import lombok.Getter;
 import lombok.Setter;
