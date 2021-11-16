@@ -33,7 +33,7 @@
           <a class="nav-link" href="complaint1.html">민원</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="cost1.html">관리비</a>
+          <a class="nav-link" href="cost.html">관리비</a>
            </li>
          <li class="nav-item">
           <a class="nav-link" href="registration1.html">입주민등록</a>
@@ -48,18 +48,21 @@
 	<strong>민원 처리</strong>
 	</span>
 	
-
-  <textarea class="form-control" rows="3" placeholder="내용을 입력하세요." style="width:1000px;height:100px;position: relative; left: 10px; top: 100px;"></textarea>
-  	<button type="button" class="btn btn-primary" style="position: relative; left: 1020px; top: 50px;" onClick="location.href='complaintcp.html'">처리하기</button>
-
-
-<select name="form-control" class="select" style="position: relative; left: -50px; top: -40px;">
-  <option disabled selected>처리 상태</option>
-  <option value="cp">접수 완료</option>
-  <option value="rcs">접수 취소</option>
-  <option value="ing">처리 중</option>
-  <option value="cp">처리 완료</option>
-</select>
+<form action="http://49.50.164.194/complaint/newprocess" method="post">
+	
+	
+	<select name="form-control" class="select" style="position: relative; left: 20px; top: 0px;">
+	  <option disabled selected>처리 상태</option>
+	  <option value="cp1">접수 완료</option>
+	  <option value="rcs">접수 취소</option>
+	  <option value="ing">처리 중</option>
+	  <option value="cp2">처리 완료</option>
+	</select>
+	
+	
+	<textarea name= "content" placeholder="내용을 입력하세요." style="width:1000px;height:100px;position: relative; left: -80px; top: 120px" rows="5" ></textarea>
+	<input type="submit" value="처리하기" style="position: relative; left: -65px; top: 110px;" onclick="location.href='complaintcp.html'">
+</form>
 
 
     <!-- Optional JavaScript; choose one of the two! -->

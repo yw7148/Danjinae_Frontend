@@ -33,7 +33,7 @@
           <a class="nav-link" href="complaint1.html">민원</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="cost1.html">관리비</a>
+          <a class="nav-link" href="cost.html">관리비</a>
            </li>
          <li class="nav-item">
           <a class="nav-link" href="registration1.html">입주민등록</a>
@@ -47,20 +47,23 @@
 	<span style="color: black; font-size:1.5em;position: relative; left: 10px; top: 5px;">
 	<strong>관리비 설정</strong>
 	</span>
-	<input type="date" style="position: relative; left: 10px;top:2.5px">
-	<span style="color: black; font-size:1.5em;position: relative; left: 10px; top: 5px;">
-	<strong>~</strong>
-	</span>
-	<input type="date" style="position: relative; left: 10px;top:2.5px">
 	
-	
-	<input type="number" class="form-control" placeholder="관리비를 입력하세요." style="width:193px;height:50px;position: relative; left: 10px; top: 10px;">
-	<div class="input-group-addon" style="position: relative; left: 205px; top: -26px;color: black; font-size:1.5em;"><strong>원</strong></div>
-  	<button type="button" class="btn btn-primary" style="position: relative; left: 1025px; top: 50px;" onClick="location.href='costcp.html'">청구하기</button>
 
 
 
-  <textarea class="form-control" rows="3" placeholder="내용을 입력하세요." style="width:1000px;height:100px;position: relative; left: 10px; top: -50px;"></textarea>
+
+
+<form action="http://49.50.164.194/mgfee/newMgFeeResult" method="post">
+	<input type="date" style="position: relative; left: 10px;top:2.5px" name="from_date">
+	&nbsp;&nbsp;&nbsp;~&nbsp;<input type="date" style="position: relative; left: 10px;top:2.5px" name="to_date">
+	<p><input type="text" placeholder="관리비를 입력하세요.(원)" style="width:200px;height:50px;position: relative; left: 10px; top: 10px;" name="fee"></p>
+	<textarea name= "content" placeholder="내용을 입력하세요." style="width:700px;height:100px;position: relative; left: 10px; top: 10px" rows="5" ></textarea>
+
+  	<p><input type="submit" value="청구하기" style="position: relative; left: 720px; top: -28px;" onclick="location.href='noticecp.html'"></p>
+</form>
+
+
+  
 
 
 
