@@ -32,7 +32,7 @@ public class MgFeeController {
 
     @GetMapping(path = "/newMgFee")
     public String NewMgFeePage(Model model) {
-        return "mgfee_temp";
+        return "cost1";
     }
 
     @PostMapping(path = "/newMgFeeResult")
@@ -40,7 +40,11 @@ public class MgFeeController {
         var result = hSender.defHttpRequest("http://101.101.219.69:8080/mgfee/setManagerMgFee", newMgFee,
                 HttpMethod.POST);
         model.addAttribute("result", result);
-        return "helloWorld";
+
+        if(!(Boolean)result.getData())
+            return "redirect:/err/report?message=" +result.getMessage();
+        else
+            return "costcp";
     }
 
 }

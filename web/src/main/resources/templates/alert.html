@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	data-layout-decorate="~{samples/layout/sampleLayout}"
+	>
+<style>
+    .swal2-popup {
+      font-size: 11px !important;
+      font-family: 'Times New Roman', sans-serif;
+    }
+     body{
+        background-image: linear-gradient(to right, #eea2a2 0%, #bbc1bf 19%, #57c6e1 42%, #b49fda 79%, #7ac5d8 100%);
+     }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>    
+<script>
+    window.onload = function() {
+                        Swal.fire({
+                            title:"[[${message}]]",
+                            confirmButtonText: 'OK',
+                            confirmButtonColor: '#7ac5d8',
+                            returnFocus:false,
+                            focusConfirm:true,
+                            allowOutsideClick:false,
+                        }).then((result)=>{
+                            if(result['isConfirmed']){
+    
+                                location.href = "[[${redirectUri}]]";
+                            }	
+                        });
+                    }
+</script>
+    

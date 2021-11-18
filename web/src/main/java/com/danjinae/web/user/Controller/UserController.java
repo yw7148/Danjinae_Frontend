@@ -1,7 +1,11 @@
-package com.danjinae.web.notice.Controller;
+package com.danjinae.web.user.Controller;
+
+import java.sql.Timestamp;
 
 import com.danjinae.web.HttpRequest.HttpSender;
 import com.danjinae.web.notice.RequestDTO.Notice;
+import com.danjinae.web.user.DTO.NewUser;
+import com.danjinae.web.user.DTO.NewUserRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -12,24 +16,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(path = "/notice")
-public class NoticeController {
+@RequestMapping(path = "/user")
+public class UserController {
     @Autowired
     HttpSender hSender;
 
-    @GetMapping(path = "/")
+    @GetMapping(path = "/register")
     public String NoticeIndex(Model model) {
-        return "notice";
+        return "registration1";
     }
 
-    @PostMapping(path = "/newnotice")
-    public String AddNewNotice(Model model, Notice newNotice) {
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/notice/add", newNotice, HttpMethod.POST);
+    @GetMapping(path = "/registerResult")
+    public String AddNewNotice(Model model, NewUser newUser) {
+        NewUserRequest request = new NewUserRequest();
+        {
+        }
+        var result = hSender.defHttpRequest("http://101.101.219.69:8080/user/add", request, HttpMethod.POST);
         model.addAttribute("result", result);
         if(!(Boolean)result.getData())
             return "redirect:/err/report?message=" +result.getMessage();
         else
-            return "noticecp";
+            return "registrationcp";
 
     }
 }
