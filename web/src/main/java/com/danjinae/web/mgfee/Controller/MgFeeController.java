@@ -18,21 +18,21 @@ public class MgFeeController {
     @Autowired
     HttpSender hSender;
 
-    @GetMapping(path = "/")
+    @GetMapping(path = "")
     public String MgFeeIndex(Model model) {
-        return "mgfee_temp";
+        return "cost";
     }
 
     @GetMapping(path = "/getlist")
     public String GetMgFeeList(Model model, ListRequest ids) {
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/mgfee/getmgfee", ids, HttpMethod.POST);
+        var result = hSender.defHttpRequest("http://101.101.219.69:8080/mgfee/getmgfee?userId="+ids.getUserId(),null, HttpMethod.GET);
         model.addAttribute("result", result);
         return "helloWorld";
     }
 
     @GetMapping(path = "/newMgFee")
     public String NewMgFeePage(Model model) {
-        return "mgfee_temp";
+        return "cost1";
     }
 
     @PostMapping(path = "/newMgFeeResult")
@@ -40,7 +40,11 @@ public class MgFeeController {
         var result = hSender.defHttpRequest("http://101.101.219.69:8080/mgfee/setManagerMgFee", newMgFee,
                 HttpMethod.POST);
         model.addAttribute("result", result);
-        return "helloWorld";
+
+        if(!(Boolean)result.getData())
+            return "redirect:/err/report?message=" +result.getMessage();
+        else
+            return "costcp";
     }
 
 }
