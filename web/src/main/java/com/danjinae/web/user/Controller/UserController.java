@@ -26,10 +26,11 @@ public class UserController {
         return "registration1";
     }
 
-    @GetMapping(path = "/registerResult")
+    @PostMapping(path = "/registerResult")
     public String AddNewNotice(Model model, NewUser newUser) {
         NewUserRequest request = new NewUserRequest();
         {
+            
         }
         var result = hSender.defHttpRequest("http://101.101.219.69:8080/user/add", request, HttpMethod.POST);
         model.addAttribute("result", result);

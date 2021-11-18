@@ -9,8 +9,6 @@ import lombok.Setter;
 @Setter
 public class NewVehicleRequest {
     Integer mgrid;
-    String name;
-    String address;
-    Timestamp birth;
+    String number;
     String phone;
 }

@@ -57,11 +57,13 @@ public class VehicleController {
         return "car-registration";
     }
 
-    @PostMapping(path = "/register/result")
+    @PostMapping(path = "/registerResult")
     public String AddNewNotice(Model model, NewVehicle newVehicle) {
         NewVehicleRequest request = new NewVehicleRequest();
         {
-            
+            request.setMgrid(1);
+            request.setNumber(newVehicle.getCarnumber());
+            request.setPhone(newVehicle.getCarphone());
         }
         var result = hSender.defHttpRequest("http://101.101.219.69:8080/vehicle/resident", request, HttpMethod.POST);
         model.addAttribute("result", result);

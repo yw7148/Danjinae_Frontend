@@ -17,7 +17,7 @@ public class NoticeController {
     @Autowired
     HttpSender hSender;
 
-    @GetMapping(path = "/")
+    @GetMapping(path = "")
     public String NoticeIndex(Model model) {
         return "notice";
     }
