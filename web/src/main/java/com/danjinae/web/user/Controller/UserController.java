@@ -1,6 +1,9 @@
 package com.danjinae.web.user.Controller;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.danjinae.web.HttpRequest.HttpSender;
 import com.danjinae.web.notice.RequestDTO.Notice;
@@ -31,6 +34,18 @@ public class UserController {
     @PostMapping(path = "/registerResult")
     public String AddNewNotice(Model model, NewUser newUser) {
         newUser.setMgrId(mgrId);
+        try {
+
+            SimpleDateFormat dtFormat = new SimpleDateFormat("yyMMdd");
+            SimpleDateFormat newDtFormat = new SimpleDateFormat("yyyy-MM-dd");
+            // String 타입을 Date 타입으로 변환
+            Date formatDate = dtFormat.parse(newUser.getBirth());
+            // Date타입의 변수를 새롭게 지정한 포맷으로 변환
+            newUser.setBirth(newDtFormat.format(formatDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         var result = hSender.defHttpRequest("http://101.101.219.69:8080/user/add", newUser, HttpMethod.POST);
         model.addAttribute("result", result.getData());
         if (!(Boolean) result.getData())
