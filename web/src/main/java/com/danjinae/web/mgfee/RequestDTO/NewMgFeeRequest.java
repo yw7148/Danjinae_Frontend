@@ -5,9 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MgFee {
-    private Integer dong;
-    private Integer ho;
+public class NewMgFeeRequest {
+    private String address;
     private Integer aptId;
     private Integer fee;
     private Integer catId;

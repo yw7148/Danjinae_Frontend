@@ -43,7 +43,7 @@
   </div>
 </nav>
 
-<form class="form-inline">
+<form class="form-inline" style="width: 600px;">
   <div class="form-group">
 	<span style="color: black; font-size:1.5em;position: relative; left: 10px; top: 5px;">
 	<strong>차주 정보</strong>
@@ -52,7 +52,34 @@
 
 
 
-	
+	<table class="table table-bordered">
+    <tbody>
+      <tr>
+        <td><label>Number </label></td>
+        <td><label th:text = "${result.number}"></label></td>
+      </tr>
+      <tr>
+        <td><label>Phone </label></td>
+        <td><label th:text = "${result.phone}"></label></td>
+      </tr>
+      <tr>
+        <td><label>Type </label></td>
+        <td><label th:text = "${result.guest ? 'guest' : 'resident'}"></label></td>
+      </tr>
+      <tr>
+        <td><label>Start Date </label></td>
+        <td><label th:text = "${result.startDate}"></label></td>
+      </tr>
+      <tr>
+        <td><label>End Date </label></td>
+        <td><label th:text = "${result.endDate}"></label></td>
+      </tr>
+      <tr>
+        <td><label>User </label></td>
+        <td><label th:text = "${result.userId}"></label></td>
+      </tr>
+    </tbody>
+  </table>
 
 
     <!-- Optional JavaScript; choose one of the two! -->

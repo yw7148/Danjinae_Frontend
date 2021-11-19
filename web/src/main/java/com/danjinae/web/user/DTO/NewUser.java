@@ -8,10 +8,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class NewUser {
-    Integer mgrid;
+    Integer mgrId;
     String name;
     String address;
-    Date birth;
+    String birth;
     String carnumber;
     String carphone;
     String phone;
