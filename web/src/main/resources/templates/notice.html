@@ -51,9 +51,9 @@
 	<span style="color: black; font-size:1.5em;position: relative; left: 10px; top: 5px;">
 	<strong>공지사항</strong>
 	</span>
-<form action="http://49.50.164.194/notice/newnotice" method="post">
-	<input type="date" style="position: relative; left: 10px;top:2.5px" name="from_date">
-	&nbsp;&nbsp;&nbsp;~&nbsp;<input type="date" style="position: relative; left: 10px;top:2.5px" name="to_date">
+<form action="/notice/newnotice" method="post">
+	<input type="date" style="position: relative; left: 10px;top:2.5px" name="startDate">
+	&nbsp;&nbsp;&nbsp;~&nbsp;<input type="date" style="position: relative; left: 10px;top:2.5px" name="endDate">
 	<textarea name= "content" placeholder="공지사항을 입력하세요." style="width:1000px;height:100px;position: relative; left: 10px; top: 10px" rows="5" ></textarea>
   	<input type="submit" value="게시하기" style="position: relative; left: 15px; top: 0px;" onclick="location.href='/notice/newnotice'">
 </form>

@@ -26,7 +26,7 @@ public class MgFeeController {
     @GetMapping(path = "/getlist")
     public String GetMgFeeList(Model model, ListRequest ids) {
         var result = hSender.defHttpRequest("http://101.101.219.69:8080/mgfee/getmgfee?userId="+ids.getUserId(),null, HttpMethod.GET);
-        model.addAttribute("result", result);
+        model.addAttribute("result", result.getData());
         return "helloWorld";
     }
 
@@ -39,7 +39,7 @@ public class MgFeeController {
     public String SetNewMgFee(Model model, MgFee newMgFee) {
         var result = hSender.defHttpRequest("http://101.101.219.69:8080/mgfee/setManagerMgFee", newMgFee,
                 HttpMethod.POST);
-        model.addAttribute("result", result);
+        model.addAttribute("result", result.getData());
 
         if(!(Boolean)result.getData())
             return "redirect:/err/report?message=" +result.getMessage();

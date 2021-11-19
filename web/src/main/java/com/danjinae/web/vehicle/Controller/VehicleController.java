@@ -66,7 +66,7 @@ public class VehicleController {
             request.setPhone(newVehicle.getCarphone());
         }
         var result = hSender.defHttpRequest("http://101.101.219.69:8080/vehicle/resident", request, HttpMethod.POST);
-        model.addAttribute("result", result);
+        model.addAttribute("result", result.getData());
         if(!(Boolean)result.getData())
             return "redirect:/err/report?message=" +result.getMessage();
         else

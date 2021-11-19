@@ -48,7 +48,7 @@
 	<strong>민원 처리</strong>
 	</span>
 	
-<form action="http://49.50.164.194/complaint/newprocess" method="post">
+<form action="/complaint/newprocess" method="post">
 	
 	
 	<select name="form-control" class="select" style="position: relative; left: 20px; top: 0px;">
@@ -58,10 +58,10 @@
 	  <option value="ing">처리 중</option>
 	  <option value="cp2">처리 완료</option>
 	</select>
-	
+	<input type="hidden" th:value="${result.cplId}" name="cplId">
 	
 	<textarea name= "content" placeholder="내용을 입력하세요." style="width:1000px;height:100px;position: relative; left: -80px; top: 120px" rows="5" ></textarea>
-	<input type="submit" value="처리하기" style="position: relative; left: -65px; top: 110px;" onclick="location.href='/complaint/newprocess'">
+	<input type="submit" value="처리하기" style="position: relative; left: -65px; top: 110px;" >
 </form>
 
 

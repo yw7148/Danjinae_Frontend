@@ -1,5 +1,7 @@
 package com.danjinae.web.complaint.Controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.danjinae.web.HttpRequest.HttpSender;
 import com.danjinae.web.complaint.RequestDTO.ComplaintProcess;
 
@@ -23,23 +25,23 @@ public class ComplaintController {
     public String ComplaintIndex(Model model, @RequestParam(value = "aptId") Integer aptId) {
         
         var result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/get?id="+aptId, null, HttpMethod.GET);
-        model.addAttribute("result", result);
+        model.addAttribute("result", result.getData());
         return "complaint1";
     }
 
     @GetMapping(path = "/select/{cplId}")
     public String ComplaintList(Model model, @PathVariable Integer cplId) {
         
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/select?id="+cplId, null, HttpMethod.GET);
-        model.addAttribute("result", result);
+        var result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/select/"+cplId, null, HttpMethod.GET);
+        model.addAttribute("result", result.getData());
         return "complaint2";
     }
 
     @PostMapping(path = "/newprocess")
-    public String AddNewProcess(Model model, ComplaintProcess newProcess) {
+    public String AddNewProcess(Model model, HttpServletRequest req,ComplaintProcess newProcess) {
         var result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/addprocess", newProcess,
                 HttpMethod.POST);
-        model.addAttribute("result", result);
+        model.addAttribute("result", result.getData());
         if(!(Boolean)result.getData())
             return "redirect:/err/report?message="+result.getMessage();
         else

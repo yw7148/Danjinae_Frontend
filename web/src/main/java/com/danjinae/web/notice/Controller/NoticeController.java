@@ -25,7 +25,7 @@ public class NoticeController {
     @PostMapping(path = "/newnotice")
     public String AddNewNotice(Model model, Notice newNotice) {
         var result = hSender.defHttpRequest("http://101.101.219.69:8080/notice/add", newNotice, HttpMethod.POST);
-        model.addAttribute("result", result);
+        model.addAttribute("result", result.getData());
         if(!(Boolean)result.getData())
             return "redirect:/err/report?message=" +result.getMessage();
         else
