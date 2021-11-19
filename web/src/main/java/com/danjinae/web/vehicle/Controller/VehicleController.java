@@ -31,26 +31,25 @@ public class VehicleController {
     }
 
     @GetMapping(path = "/check")
-    public String VehicleSearch(Model model)
-    {
+    public String VehicleSearch(Model model) {
         return "car-check";
     }
 
     @GetMapping(path = "/getlist")
-    public String VehicleList(Model model, @RequestParam("number") Integer carNumber)
-    {
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/vehicle/select/list?number=" + carNumber, null, HttpMethod.GET);
+    public String VehicleList(Model model, @RequestParam("number") Integer carNumber) {
+        var result = hSender.defHttpRequest("http://101.101.219.69:8080/vehicle/select/list?number=" + carNumber, null,
+                HttpMethod.GET);
         model.addAttribute("result", result.getData());
         return "car-check2";
     }
 
-    @GetMapping(path = "/selectvehicle/{vehicleId}")
-    public String VehicleInfo(Model model, @PathVariable Integer vehicleId)
-    {
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/vehicle/select/info?id=" + vehicleId, null, HttpMethod.GET);
+    @GetMapping(path = "/selectvehicle")
+    public String VehicleInfo(Model model, @RequestParam(value = "vehicleId") Integer vehicleId) {
+        var result = hSender.defHttpRequest("http://101.101.219.69:8080/vehicle/select/info?id=" + vehicleId, null,
+                HttpMethod.GET);
         model.addAttribute("result", result.getData());
         return "car-check3";
-    } 
+    }
 
     @GetMapping(path = "/register")
     public String VehicleRegister(Model model) {
@@ -66,9 +65,9 @@ public class VehicleController {
             request.setPhone(newVehicle.getCarphone());
         }
         var result = hSender.defHttpRequest("http://101.101.219.69:8080/vehicle/resident", request, HttpMethod.POST);
-        model.addAttribute("result", result);
-        if(!(Boolean)result.getData())
-            return "redirect:/err/report?message=" +result.getMessage();
+        model.addAttribute("result", result.getData());
+        if (!(Boolean) result.getData())
+            return "redirect:/err/report?message=" + result.getMessage();
         else
             return "car-registrationcp";
 

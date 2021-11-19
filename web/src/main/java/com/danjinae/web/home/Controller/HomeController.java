@@ -18,7 +18,7 @@ public class HomeController {
     public String ErrorPage(Model model, @RequestParam(value = "message") String message)
     {
       model.addAttribute("message", message);
-		  model.addAttribute("redirectUri", "/");
+		  model.addAttribute("redirectUri", "javascript:history.back();");
 		  return "alert";
     }
 

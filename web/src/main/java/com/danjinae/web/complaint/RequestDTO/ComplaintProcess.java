@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class ComplaintProcess {
     private Integer cplId;
-    private Integer aptId;
+    private Integer mgrId;
     private String content;
+    private String state;
 }

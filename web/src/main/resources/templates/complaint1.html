@@ -43,16 +43,64 @@
   </div>
 </nav>
 
-
+<div class="form-inline" style="width: 600px;">
 	<span style="color: black; font-size:1.5em;position: relative; left: 10px; top: 5px;">
 	<strong>민원 목록</strong>
 	</span>
 	
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Complaint ID</th>
+        <th scope="col">Content</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="complaint : ${result.content}">
+        <form action = "/complaint/select" method = "get">
+          <input type = "hidden" th:value = ${complaint.cplId} name="cplId">
+          <td><label th:text = ${complaint.cplId}></label></td>
+          <td><label th:text = "${complaint.content}"></label></td>
+          <td><button type="submit" class="btn btn-primary" style="position: relative; left: 100px;">선택</button></td>
+        </form>
+      </tr>
+    </tbody>
+  </table>
 
+  <nav style="text-align: center;">
+    <ul class="pagination justify-content-center" 
+        th:with="start=${T(Math).floor(result.number/10)*10 + 1},
+                    last=(${start + 9 < result.totalPages ? start + 9 : result.totalPages})">
+        <li class="page-item">
+            <a class="page-link" th:href="@{/boards(page=1)}" aria-label="First">
+                <span aria-hidden="true">First</span>
+            </a>
+        </li>
 
-<button type="button" class="btn btn-primary" style="position: relative; left: 275px; top: -0px;" onClick="location.href='/complaint/select'">조회</button>
+        <li class="page-item" th:class="${result.first} ? 'disabled'">
+            <a class="page-link" th:href="${result.first} ? '#' :@{/boards(page=${result.number})}" aria-label="Previous">
+                <span aria-hidden="true">&lt;</span>
+            </a>
+        </li>
 
+        <li class="page-item" th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == result.number + 1} ? 'active'">
+            <a class="page-link" th:text="${page}" th:href="@{/boards(page=${page})}"></a>
+        </li>
 
+        <li class="page-item" th:class="${result.last} ? 'disabled'">
+            <a class="page-link" th:href="${result.last} ? '#' : @{/boards(page=${result.number + 2})}" aria-label="Next">
+                <span aria-hidden="true">&gt;</span>
+            </a>
+        </li>
+
+        <li class="page-item">
+            <a class="page-link" th:href="@{/boards(page=${result.totalPages})}" aria-label="Last">
+                <span aria-hidden="true">Last</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+</div>
 
     <!-- Optional JavaScript; choose one of the two! -->
 

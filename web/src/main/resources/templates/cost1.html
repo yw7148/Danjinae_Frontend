@@ -53,10 +53,15 @@
 
 
 
-<form action="http://49.50.164.194/mgfee/newMgFeeResult" method="post">
-	<input type="date" style="position: relative; left: 10px;top:2.5px" name="from_date">
-	&nbsp;&nbsp;&nbsp;~&nbsp;<input type="date" style="position: relative; left: 10px;top:2.5px" name="to_date">
-	<p><input type="text" placeholder="관리비를 입력하세요.(원)" style="width:200px;height:50px;position: relative; left: 10px; top: 10px;" name="fee"></p>
+<form action="/mgfee/newMgFeeResult" method="post">
+	<input type="date" style="position: relative; left: 10px;top:2.5px" name="date">
+	<p>
+    <input type="text" placeholder="주소(동)" style="width:100px;height:50px;position: relative; left: 10px; top: 10px;" name="dong">
+    <label style="height:50px;position: relative; left: 10px; top: 10px;"> 동 </label>
+    <input type="text" placeholder="주소(호)" style="width:100px;height:50px;position: relative; left: 10px; top: 10px;" name="ho">
+    <label style="height:50px;position: relative; left: 10px; top: 10px;"> 호 </label>
+  </p>
+	<p><input type="text" placeholder="관리비를 입력하세요.(원)" style="width:300px;height:50px;position: relative; left: 10px; top: 10px;" name="fee"></p>
 	<textarea name= "content" placeholder="내용을 입력하세요." style="width:700px;height:100px;position: relative; left: 10px; top: 10px" rows="5" ></textarea>
 
   	<p><input type="submit" value="청구하기" style="position: relative; left: 720px; top: -28px;" onclick="location.href='/mgfee/newMgFeeResult'"></p>

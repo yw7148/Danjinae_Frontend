@@ -6,9 +6,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Notice {
-    private Integer id;
+    private Integer aptId;
     private String content;
-    private String from_date;
-    private String to_date;
-    private Integer cat_id;
+    private String startDate;
+    private String endDate;
+    private Integer catId;
 }

@@ -1,6 +1,9 @@
 package com.danjinae.web.complaint.Controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.danjinae.web.HttpRequest.HttpSender;
+import com.danjinae.web.HttpRequest.Response.MyHttpResponse;
 import com.danjinae.web.complaint.RequestDTO.ComplaintProcess;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,29 +22,32 @@ public class ComplaintController {
     @Autowired
     HttpSender hSender;
 
+    private Integer aptId = 1;
+
     @GetMapping(path = "")
-    public String ComplaintIndex(Model model, @RequestParam(value = "aptId") Integer aptId) {
-        
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/get?id="+aptId, null, HttpMethod.GET);
-        model.addAttribute("result", result);
+    public String ComplaintIndex(Model model) {
+
+        var result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/get/" + aptId, null, HttpMethod.GET);
+        model.addAttribute("result", result.getData());
         return "complaint1";
     }
 
-    @GetMapping(path = "/select/{cplId}")
-    public String ComplaintList(Model model, @PathVariable Integer cplId) {
-        
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/select?id="+cplId, null, HttpMethod.GET);
-        model.addAttribute("result", result);
+    @GetMapping(path = "/select")
+    public String ComplaintList(Model model, @RequestParam(value = "cplId") Integer cplId) {
+
+        var result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/select/" + cplId, null,
+                HttpMethod.GET);
+        model.addAttribute("result", result.getData());
         return "complaint2";
     }
 
     @PostMapping(path = "/newprocess")
-    public String AddNewProcess(Model model, ComplaintProcess newProcess) {
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/addprocess", newProcess,
+    public String AddNewProcess(Model model, HttpServletRequest req, ComplaintProcess newProcess) {
+        MyHttpResponse result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/addprocess", newProcess,
                 HttpMethod.POST);
-        model.addAttribute("result", result);
-        if(!(Boolean)result.getData())
-            return "redirect:/err/report?message="+result.getMessage();
+        model.addAttribute("result", result.getData());
+        if (!(Boolean) result.getData())
+            return "redirect:/err/report?message=" + result.getMessage();
         else
             return "complaintcp";
     }

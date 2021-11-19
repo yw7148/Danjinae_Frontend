@@ -13,55 +13,65 @@
   <body>
 	
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#" style="color: lightskyblue"><strong>단지네</strong></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/notice">공지사항</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/vehicle">차량관리</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/complaint">민원</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/mgfee">관리비</a>
-           </li>
-         <li class="nav-item">
-          <a class="nav-link" href="/user/register">입주민등록</a>
-        </li>
-      </ul>
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#" style="color: lightskyblue"><strong>단지네</strong></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/notice">공지사항</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/vehicle">차량관리</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/complaint">민원</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/mgfee">관리비</a>
+            </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/user/register">입주민등록</a>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
 
 	<span style="color: black; font-size:1.5em;position: relative; left: 10px; top: 5px;">
 	<strong>민원 처리</strong>
 	</span>
-	
-<form action="http://49.50.164.194/complaint/newprocess" method="post">
-	
-	
-	<select name="form-control" class="select" style="position: relative; left: 20px; top: 0px;">
+  <p style="position: relative; left: 20px; top: 80px;">
+    <label style="font-weight: bold;">내용: </label>
+    <label th:text = "${result.content}"></label>
+  </p>
+  <p style="position: relative; left: 20px; top: 80px;">
+    <label style="font-weight: bold;">진행상황: </label>
+    <th:block th:each="process : ${result.processes.content}"> 
+      <label style="margin-left: 1px; padding: 2px; " th:text="${process.state} + ' <<' "></label> 
+    </th:block>
+    <label style="margin-left: 1px; padding: 2px; ">민원신고</label> 
+  </p>
+  
+
+<form action="/complaint/newprocess" method="post">
+	<select name="state" class="select" style="position: relative; left: 20px; top: 0px;">
 	  <option disabled selected>처리 상태</option>
-	  <option value="cp1">접수 완료</option>
-	  <option value="rcs">접수 취소</option>
-	  <option value="ing">처리 중</option>
-	  <option value="cp2">처리 완료</option>
+	  <option value="접수완료">접수 완료</option>
+	  <option value="접수 취소">접수 취소</option>
+	  <option value="처리중">처리 중</option>
+	  <option value="처리 완료">처리 완료</option>
 	</select>
-	
+	<input type="hidden" th:value="${result.cplId}" name="cplId">
 	
 	<textarea name= "content" placeholder="내용을 입력하세요." style="width:1000px;height:100px;position: relative; left: -80px; top: 120px" rows="5" ></textarea>
-	<input type="submit" value="처리하기" style="position: relative; left: -65px; top: 110px;" onclick="location.href='/complaint/newprocess'">
+	<input type="submit" value="처리하기" style="position: relative; left: -65px; top: 110px;" >
 </form>
 
 

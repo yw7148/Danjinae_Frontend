@@ -21,6 +21,8 @@ public class UserController {
     @Autowired
     HttpSender hSender;
 
+    private Integer mgrId = 1;
+
     @GetMapping(path = "/register")
     public String NoticeIndex(Model model) {
         return "registration1";
@@ -28,14 +30,11 @@ public class UserController {
 
     @PostMapping(path = "/registerResult")
     public String AddNewNotice(Model model, NewUser newUser) {
-        NewUserRequest request = new NewUserRequest();
-        {
-            
-        }
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/user/add", request, HttpMethod.POST);
-        model.addAttribute("result", result);
-        if(!(Boolean)result.getData())
-            return "redirect:/err/report?message=" +result.getMessage();
+        newUser.setMgrId(mgrId);
+        var result = hSender.defHttpRequest("http://101.101.219.69:8080/user/add", newUser, HttpMethod.POST);
+        model.addAttribute("result", result.getData());
+        if (!(Boolean) result.getData())
+            return "redirect:/err/report?message=" + result.getMessage();
         else
             return "registrationcp";
 

@@ -11,6 +11,6 @@ public class NewUserRequest {
     Integer mgrid;
     String name;
     String address;
-    Timestamp birth;
+    String birth;
     String phone;
 }
