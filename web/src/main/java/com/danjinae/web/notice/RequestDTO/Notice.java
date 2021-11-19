@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Notice {
+    private Integer aptId;
     private String content;
     private String startDate;
     private String endDate;

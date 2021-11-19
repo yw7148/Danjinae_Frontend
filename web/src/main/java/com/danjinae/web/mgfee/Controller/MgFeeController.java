@@ -1,7 +1,6 @@
 package com.danjinae.web.mgfee.Controller;
 
 import com.danjinae.web.HttpRequest.HttpSender;
-import com.danjinae.web.mgfee.RequestDTO.ListRequest;
 import com.danjinae.web.mgfee.RequestDTO.MgFee;
 import com.danjinae.web.mgfee.RequestDTO.NewMgFeeRequest;
 
@@ -12,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping(path = "/mgfee")
@@ -27,11 +27,11 @@ public class MgFeeController {
     }
 
     @GetMapping(path = "/getlist")
-    public String GetMgFeeList(Model model, ListRequest ids) {
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/mgfee/getmgfee?userId=" + ids.getUserId(), null,
+    public String GetMgFeeList(Model model) {
+        var result = hSender.defHttpRequest("http://101.101.219.69:8080/mgfee/getmanagermgfee?aptId=" + aptId, null,
                 HttpMethod.GET);
         model.addAttribute("result", result.getData());
-        return "helloWorld";
+        return "cost-check";
     }
 
     @GetMapping(path = "/newMgFee")
