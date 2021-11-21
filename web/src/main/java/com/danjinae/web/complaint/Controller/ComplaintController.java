@@ -2,6 +2,7 @@ package com.danjinae.web.complaint.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.danjinae.web.SETTING;
 import com.danjinae.web.HttpRequest.HttpSender;
 import com.danjinae.web.HttpRequest.Response.MyHttpResponse;
 import com.danjinae.web.complaint.RequestDTO.ComplaintProcess;
@@ -22,12 +23,10 @@ public class ComplaintController {
     @Autowired
     HttpSender hSender;
 
-    private Integer aptId = 1;
-
     @GetMapping(path = "")
     public String ComplaintIndex(Model model) {
 
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/get/" + aptId, null, HttpMethod.GET);
+        var result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/get/" + SETTING.APT_ID, null, HttpMethod.GET);
         model.addAttribute("result", result.getData());
         return "complaint1";
     }

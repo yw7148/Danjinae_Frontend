@@ -1,5 +1,6 @@
 package com.danjinae.web.notice.Controller;
 
+import com.danjinae.web.SETTING;
 import com.danjinae.web.HttpRequest.HttpSender;
 import com.danjinae.web.notice.RequestDTO.Notice;
 
@@ -17,8 +18,6 @@ public class NoticeController {
     @Autowired
     HttpSender hSender;
 
-    private Integer aptId = 1;
-
     @GetMapping(path = "")
     public String NoticeIndex(Model model) {
         return "notice";
@@ -26,7 +25,7 @@ public class NoticeController {
 
     @PostMapping(path = "/newnotice")
     public String AddNewNotice(Model model, Notice newNotice) {
-        newNotice.setAptId(aptId);
+        newNotice.setAptId(SETTING.APT_ID);
         var result = hSender.defHttpRequest("http://101.101.219.69:8080/notice/add", newNotice, HttpMethod.POST);
         model.addAttribute("result", result.getData());
         if (!(Boolean) result.getData())

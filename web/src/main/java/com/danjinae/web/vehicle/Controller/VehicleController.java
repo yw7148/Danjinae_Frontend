@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import javax.websocket.server.PathParam;
 
+import com.danjinae.web.SETTING;
 import com.danjinae.web.HttpRequest.HttpSender;
 import com.danjinae.web.vehicle.DTO.NewVehicle;
 import com.danjinae.web.vehicle.DTO.NewVehicleRequest;
@@ -60,7 +61,7 @@ public class VehicleController {
     public String AddNewNotice(Model model, NewVehicle newVehicle) {
         NewVehicleRequest request = new NewVehicleRequest();
         {
-            request.setMgrid(1);
+            request.setMgrid(SETTING.MGR_ID);
             request.setNumber(newVehicle.getCarnumber());
             request.setPhone(newVehicle.getCarphone());
         }

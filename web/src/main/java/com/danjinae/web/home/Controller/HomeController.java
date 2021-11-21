@@ -1,5 +1,6 @@
 package com.danjinae.web.home.Controller;
 
+import com.danjinae.web.SETTING;
 import com.danjinae.web.HttpRequest.HttpSender;
 import com.danjinae.web.notice.RequestDTO.Notice;
 
@@ -21,6 +22,26 @@ public class HomeController {
 		  model.addAttribute("redirectUri", "javascript:history.back();");
 		  return "alert";
     }
+
+    @GetMapping(path = "/changeApt")
+    public String ChangeAptId(Model model)
+    {
+      if(SETTING.APT_ID == 1)
+      {
+        SETTING.APT_ID = 2;
+        SETTING.MGR_ID = 2;
+      }
+      else if(SETTING.APT_ID == 2)
+      {
+        SETTING.APT_ID = 1;
+        SETTING.MGR_ID = 1;
+      }
+      model.addAttribute("message", "매니저 및 아파트 ID: " + SETTING.APT_ID);
+		  model.addAttribute("redirectUri", "javascript:history.back();");
+      return "alert";
+    }
+
+
 
     @GetMapping(path = "/")
     public String Index(Model model)

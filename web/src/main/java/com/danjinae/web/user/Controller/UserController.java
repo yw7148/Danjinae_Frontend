@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.danjinae.web.SETTING;
 import com.danjinae.web.HttpRequest.HttpSender;
 import com.danjinae.web.notice.RequestDTO.Notice;
 import com.danjinae.web.user.DTO.NewUser;
@@ -24,8 +25,6 @@ public class UserController {
     @Autowired
     HttpSender hSender;
 
-    private Integer mgrId = 1;
-
     @GetMapping(path = "/register")
     public String NoticeIndex(Model model) {
         return "registration1";
@@ -33,7 +32,7 @@ public class UserController {
 
     @PostMapping(path = "/registerResult")
     public String AddNewNotice(Model model, NewUser newUser) {
-        newUser.setMgrId(mgrId);
+        newUser.setMgrId(SETTING.MGR_ID);
         try {
 
             SimpleDateFormat dtFormat = new SimpleDateFormat("yyMMdd");

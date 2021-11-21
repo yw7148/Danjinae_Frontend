@@ -1,5 +1,6 @@
 package com.danjinae.web.mgfee.Controller;
 
+import com.danjinae.web.SETTING;
 import com.danjinae.web.HttpRequest.HttpSender;
 import com.danjinae.web.mgfee.RequestDTO.MgFee;
 import com.danjinae.web.mgfee.RequestDTO.NewMgFeeRequest;
@@ -19,8 +20,6 @@ public class MgFeeController {
     @Autowired
     HttpSender hSender;
 
-    private Integer aptId = 1;
-
     @GetMapping(path = "")
     public String MgFeeIndex(Model model) {
         return "cost";
@@ -28,7 +27,7 @@ public class MgFeeController {
 
     @GetMapping(path = "/getlist")
     public String GetMgFeeList(Model model) {
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/mgfee/getmanagermgfee?aptId=" + aptId, null,
+        var result = hSender.defHttpRequest("http://101.101.219.69:8080/mgfee/getmanagermgfee?aptId=" + SETTING.APT_ID, null,
                 HttpMethod.GET);
         model.addAttribute("result", result.getData());
         return "cost-check";
@@ -44,7 +43,7 @@ public class MgFeeController {
         NewMgFeeRequest request = new NewMgFeeRequest();
         {
             request.setAddress(newMgFee.getDong() + "동" + newMgFee.getHo() + "호");
-            request.setAptId(aptId);
+            request.setAptId(SETTING.APT_ID);
             request.setCatId(newMgFee.getCatId());
             request.setContent(newMgFee.getContent());
             request.setFee(newMgFee.getFee());
