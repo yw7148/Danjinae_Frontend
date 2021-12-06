@@ -2,6 +2,8 @@ package com.danjinae.web.vehicle.Controller;
 
 import java.sql.Timestamp;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.websocket.server.PathParam;
 
 import com.danjinae.web.SETTING;
@@ -37,17 +39,18 @@ public class VehicleController {
     }
 
     @GetMapping(path = "/getlist")
-    public String VehicleList(Model model, @RequestParam("number") Integer carNumber) {
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/vehicle/select/list?number=" + carNumber, null,
-                HttpMethod.GET);
+    public String VehicleList(HttpServletRequest req, HttpServletResponse res, Model model, @RequestParam("number") Integer carNumber, @RequestParam(value = "page", defaultValue = "0") Integer page) {
+        var result = hSender.defHttpRequest("http://101.101.219.69:8080/vehicle/select/list?number=" + carNumber + "&page=" + page, null,
+                req, res ,HttpMethod.GET);
         model.addAttribute("result", result.getData());
+        model.addAttribute("number", carNumber);
         return "car-check2";
     }
 
     @GetMapping(path = "/selectvehicle")
-    public String VehicleInfo(Model model, @RequestParam(value = "vehicleId") Integer vehicleId) {
+    public String VehicleInfo(HttpServletRequest req, HttpServletResponse res, Model model, @RequestParam(value = "vehicleId") Integer vehicleId) {
         var result = hSender.defHttpRequest("http://101.101.219.69:8080/vehicle/select/info?id=" + vehicleId, null,
-                HttpMethod.GET);
+                req, res ,HttpMethod.GET);
         model.addAttribute("result", result.getData());
         return "car-check3";
     }
@@ -58,14 +61,14 @@ public class VehicleController {
     }
 
     @PostMapping(path = "/registerResult")
-    public String AddNewNotice(Model model, NewVehicle newVehicle) {
+    public String AddNewNotice(HttpServletRequest req, HttpServletResponse res, Model model, NewVehicle newVehicle) {
         NewVehicleRequest request = new NewVehicleRequest();
         {
             request.setMgrid(SETTING.MGR_ID);
             request.setNumber(newVehicle.getCarnumber());
             request.setPhone(newVehicle.getCarphone());
         }
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/vehicle/resident", request, HttpMethod.POST);
+        var result = hSender.defHttpRequest("http://101.101.219.69:8080/vehicle/resident", request, req, res ,HttpMethod.POST);
         model.addAttribute("result", result.getData());
         if (!(Boolean) result.getData())
             return "redirect:/err/report?message=" + result.getMessage();

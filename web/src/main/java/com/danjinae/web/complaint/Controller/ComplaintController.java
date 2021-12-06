@@ -24,9 +24,9 @@ public class ComplaintController {
     HttpSender hSender;
 
     @GetMapping(path = "")
-    public String ComplaintIndex(Model model) {
+    public String ComplaintIndex(@RequestParam(value = "page", defaultValue = "0") Integer page, Model model) {
 
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/get/" + SETTING.APT_ID, null, HttpMethod.GET);
+        var result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/get/" + SETTING.APT_ID + "?page=" + page, null, req, res ,HttpMethod.GET);
         model.addAttribute("result", result.getData());
         return "complaint1";
     }
@@ -35,15 +35,15 @@ public class ComplaintController {
     public String ComplaintList(Model model, @RequestParam(value = "cplId") Integer cplId) {
 
         var result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/select/" + cplId, null,
-                HttpMethod.GET);
+                req, res ,HttpMethod.GET);
         model.addAttribute("result", result.getData());
         return "complaint2";
     }
 
     @PostMapping(path = "/newprocess")
-    public String AddNewProcess(Model model, HttpServletRequest req, ComplaintProcess newProcess) {
+    public String AddNewProcess(Model model, HttpServletRequest req, HttpServletResponse res, ComplaintProcess newProcess) {
         MyHttpResponse result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/addprocess", newProcess,
-                HttpMethod.POST);
+                req, res ,HttpMethod.POST);
         model.addAttribute("result", result.getData());
         if (!(Boolean) result.getData())
             return "redirect:/err/report?message=" + result.getMessage();

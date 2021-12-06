@@ -5,8 +5,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.danjinae.web.SETTING;
 import com.danjinae.web.HttpRequest.HttpSender;
+import com.danjinae.web.HttpRequest.loginDTO.JwtToken;
+import com.danjinae.web.HttpRequest.loginService.CookieUtil;
 import com.danjinae.web.notice.RequestDTO.Notice;
 import com.danjinae.web.user.DTO.NewUser;
 import com.danjinae.web.user.DTO.NewUserRequest;
@@ -23,15 +28,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(path = "/user")
 public class UserController {
     @Autowired
-    HttpSender hSender;
+    HttpSender httpSender;
 
+    @Autowired
+    CookieUtil cookieUtil;
+
+    @Autowired
+    JwtToken jwtToken;
+    
     @GetMapping(path = "/register")
     public String NoticeIndex(Model model) {
         return "registration1";
     }
 
     @PostMapping(path = "/registerResult")
-    public String AddNewNotice(Model model, NewUser newUser) {
+    public String AddNewNotice(Model model, HttpServletRequest req, HttpServletResponse res, NewUser newUser) {
         newUser.setMgrId(SETTING.MGR_ID);
         try {
 
@@ -45,7 +56,7 @@ public class UserController {
             e.printStackTrace();
         }
 
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/user/add", newUser, HttpMethod.POST);
+        var result = httpSender.defHttpRequest("http://101.101.219.69:8080/user/add", newUser, req, res ,HttpMethod.POST);
         model.addAttribute("result", result.getData());
         if (!(Boolean) result.getData())
             return "redirect:/err/report?message=" + result.getMessage();
@@ -53,4 +64,21 @@ public class UserController {
             return "registrationcp";
 
     }
+
+    @PostMapping(path = "/login")
+    public String LoginPage(HttpServletRequest request, HttpServletResponse response, Model model) {
+		try {
+			String accessToken = cookieUtil.getCookie(request, JwtToken.ACCESS_TOKEN_NAME).getValue();
+			String refreshToken = cookieUtil.getCookie(request, JwtToken.REFRESH_TOKEN_NAME).getValue();
+			var result = httpSender.CheckIsLogin(accessToken, refreshToken, response);
+			if (result.getResponse() && result.getErrorcode()!= 809) {
+				return "redirect:/";
+			}
+		} catch (NullPointerException e) {
+
+		}
+		
+		return "index";
+	}
 }
+
