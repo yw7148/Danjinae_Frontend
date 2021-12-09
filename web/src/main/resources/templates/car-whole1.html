@@ -56,20 +56,69 @@
 <form class="form-inline">
   <div class="form-group">
 	<span style="color: black; font-size:1.5em;position: relative; left: 10px; top: 5px;">
-	<strong>차량관리</strong>
+	<strong>전체차량조회</strong>
 	</span>
 	
 	</br>
    
-<button type="button" class="btn btn-info" style="position: relative; left: 10px; top: 10px;width: 200px;height:80px" onClick="location.href='/vehicle/register'">차량등록</button>
-<button type="button" class="btn btn-info" style="position: relative; left: 30px; top: 10px;width: 200px;height:80px" onClick="location.href='/vehicle/check'">차량조회</button>
-<button type="button" class="btn btn-info" style="position: relative; left: 50px; top: 10px;width: 200px;height:80px" onClick="location.href='car-whole1.html'">전체차량조회</button>
-	
-	
-	
-	
-	
 
+	
+	
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Number</th>
+        <th scope="col">Guest</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="car : ${result.content}">
+        <form action = "/vehicle/selectvehicle" method = "get">
+          <input type = "hidden" th:value = ${car.vehicleId} name="vehicleId">
+          <td><label th:text = ${car.number}></label></td>
+          <td><label th:text = "${car.guest ? 'guest' : 'resident'}"></label></td>
+          <td><button type="submit" class="btn btn-primary" style="position: relative; left: 100px;">선택</button></td>
+        </form>
+      </tr>
+    </tbody>
+  </table>
+
+  <nav style="text-align: center;">
+    <ul class="pagination justify-content-center" 
+        th:with="start=${T(Math).floor(result.number/10)*10 + 1},
+                    last=(${start + 9 < result.totalPages ? start + 9 : result.totalPages})">
+        <li class="page-item">
+            <a class="page-link" th:href="@{/boards(page=1)}" aria-label="First">
+                <span aria-hidden="true">First</span>
+            </a>
+        </li>
+
+        <li class="page-item" th:class="${result.first} ? 'disabled'">
+            <a class="page-link" th:href="${result.first} ? '#' :@{/boards(page=${result.number})}" aria-label="Previous">
+                <span aria-hidden="true">&lt;</span>
+            </a>
+        </li>
+
+        <li class="page-item" th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == result.number + 1} ? 'active'">
+            <a class="page-link" th:text="${page}" th:href="@{/boards(page=${page})}"></a>
+        </li>
+
+        <li class="page-item" th:class="${result.last} ? 'disabled'">
+            <a class="page-link" th:href="${result.last} ? '#' : @{/boards(page=${result.number + 2})}" aria-label="Next">
+                <span aria-hidden="true">&gt;</span>
+            </a>
+        </li>
+
+        <li class="page-item">
+            <a class="page-link" th:href="@{/boards(page=${result.totalPages})}" aria-label="Last">
+                <span aria-hidden="true">Last</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+  
+
+</div>
 
 
 
