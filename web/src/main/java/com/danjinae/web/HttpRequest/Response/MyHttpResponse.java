@@ -1,8 +1,10 @@
 package com.danjinae.web.HttpRequest.Response;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class MyHttpResponse {
     private Boolean response;
     private String message;

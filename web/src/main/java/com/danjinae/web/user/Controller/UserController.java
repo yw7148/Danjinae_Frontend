@@ -29,12 +29,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
     @Autowired
     HttpSender httpSender;
-
-    @Autowired
-    CookieUtil cookieUtil;
-
-    @Autowired
-    JwtToken jwtToken;
     
     @GetMapping(path = "/register")
     public String NoticeIndex(Model model) {
@@ -64,21 +58,5 @@ public class UserController {
             return "registrationcp";
 
     }
-
-    @PostMapping(path = "/login")
-    public String LoginPage(HttpServletRequest request, HttpServletResponse response, Model model) {
-		try {
-			String accessToken = cookieUtil.getCookie(request, JwtToken.ACCESS_TOKEN_NAME).getValue();
-			String refreshToken = cookieUtil.getCookie(request, JwtToken.REFRESH_TOKEN_NAME).getValue();
-			var result = httpSender.CheckIsLogin(accessToken, refreshToken, response);
-			if (result.getResponse() && result.getErrorcode()!= 809) {
-				return "redirect:/";
-			}
-		} catch (NullPointerException e) {
-
-		}
-		
-		return "index";
-	}
 }
 

@@ -1,5 +1,7 @@
 package com.danjinae.web.HttpRequest;
 
+import java.net.http.HttpResponse;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -42,10 +44,10 @@ public class HttpSender {
 
         try {
             HttpEntity<Object> request = new HttpEntity<Object>(datas, header);
-            HttpEntity<MyHttpResponse> response = restTemplate.exchange(url, method, request,
-                    MyHttpResponse.class);
+            HttpEntity<Object> response = restTemplate.exchange(url, method, request,
+                    Object.class);
 
-            return response.getBody();
+            return new MyHttpResponse(true, "성공", response.getBody(), 200);
         } 
         catch (HttpClientErrorException eh) {
         	
@@ -54,15 +56,17 @@ public class HttpSender {
                     header.add(JwtToken.REFRESH_TOKEN_NAME, refreshToken);
                     HttpEntity<Object> request = new HttpEntity<Object>(datas, header);
 
-                    HttpEntity<MyHttpResponse> response = restTemplate.exchange(url, method, request,
-                            MyHttpResponse.class);
+                    HttpEntity<Object> response = restTemplate.exchange(url, method, request,
+                    Object.class);
+
+            
                     var isToken = response.getHeaders().get(JwtToken.ACCESS_TOKEN_NAME);
 
                     if (isToken != null)
                         HttpServletResponse
                                 .addCookie(cookieUtil.createCookie(JwtToken.ACCESS_TOKEN_NAME, isToken.get(0), false));
 
-                    return response.getBody();
+                    return new MyHttpResponse(true, "성공", response.getBody(), 200);
                 } catch (HttpClientErrorException ehc) {
                     if (ehc.getStatusCode() == HttpStatus.UNAUTHORIZED) {
                         return new MyHttpResponse(false, "로그인 해주세요.", 408);
@@ -86,19 +90,21 @@ public class HttpSender {
             HttpHeaders reqheader = new HttpHeaders();
             HttpEntity<RequestLoginUser> request = new HttpEntity<RequestLoginUser>(reqUser, reqheader);
 
-            HttpEntity<MyHttpResponse> response = restTemplate.exchange("http://localhost:8081/user/login",
-                    HttpMethod.POST, request, MyHttpResponse.class);
+            HttpEntity<Boolean> response = restTemplate.exchange("http://101.101.219.69:8080/user/login",
+                    HttpMethod.POST, request, Boolean.class);
 
-            MyHttpResponse resbody = response.getBody();
-            if (resbody.getResponse()) {
+            Boolean resbody = response.getBody();
+            if (resbody) {
                 JwtToken myToken;
                 myToken = new JwtToken(response.getHeaders().get(JwtToken.ACCESS_TOKEN_NAME).get(0),
                         response.getHeaders().get(JwtToken.REFRESH_TOKEN_NAME).get(0));
 
-                resbody.setData(myToken);
+                return new MyHttpResponse(true, "성공", myToken, 400);
             }
-            
-            return resbody;
+            else 
+            {
+                return new MyHttpResponse(false, "실패하였습니다", 406);
+            }
         } catch (Exception e) 
         {
             return new MyHttpResponse(false, e.getMessage(), 406);
@@ -111,10 +117,10 @@ public class HttpSender {
 
         try {
             HttpEntity<Object> request = new HttpEntity<Object>(null, header);
-            var result = restTemplate.exchange("http://localhost:8081/user/validate", HttpMethod.POST, request,
-                    MyHttpResponse.class).getBody();
+            var result = restTemplate.exchange("http://101.101.219.69:8080/user/validate", HttpMethod.POST, request,
+                    Boolean.class).getBody();
 
-            return result;
+            return new MyHttpResponse(result, "", 200);
         } 
         catch (HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
@@ -122,7 +128,7 @@ public class HttpSender {
                     header.add(JwtToken.REFRESH_TOKEN_NAME, refreshToken);
                     HttpEntity<Object> request = new HttpEntity<Object>(null, header);
 
-                    HttpEntity<MyHttpResponse> response = restTemplate.exchange("http://localhost:8081/user/validate",
+                    HttpEntity<MyHttpResponse> response = restTemplate.exchange("http://101.101.219.69:8080/user/validate",
                             HttpMethod.POST, request, MyHttpResponse.class);
                     var isToken = response.getHeaders().get(JwtToken.ACCESS_TOKEN_NAME);
 
@@ -153,7 +159,7 @@ public class HttpSender {
             HttpHeaders reqheader = new HttpHeaders();
             HttpEntity<RequestLoginUser> request = new HttpEntity<RequestLoginUser>(reqUser, reqheader);
 
-            HttpEntity<MyHttpResponse> response = restTemplate.exchange("http://localhost:8081/user/logout",
+            HttpEntity<MyHttpResponse> response = restTemplate.exchange("http://101.101.219.69:8080/user/logout",
                     HttpMethod.POST, request, MyHttpResponse.class);
             MyHttpResponse resbody = response.getBody();
 

@@ -4,8 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 
+@Data
 @AllArgsConstructor
 public class RequestLoginUser {
-    private String username;
+    private String phone;
     private String password;
 }

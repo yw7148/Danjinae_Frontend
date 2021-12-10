@@ -1,6 +1,7 @@
 package com.danjinae.web.complaint.Controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.danjinae.web.SETTING;
 import com.danjinae.web.HttpRequest.HttpSender;
@@ -12,7 +13,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,7 +24,7 @@ public class ComplaintController {
     HttpSender hSender;
 
     @GetMapping(path = "")
-    public String ComplaintIndex(@RequestParam(value = "page", defaultValue = "0") Integer page, Model model) {
+    public String ComplaintIndex(@RequestParam(value = "page", defaultValue = "0") Integer page, HttpServletRequest req, HttpServletResponse res, Model model) {
 
         var result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/get/" + SETTING.APT_ID + "?page=" + page, null, req, res ,HttpMethod.GET);
         model.addAttribute("result", result.getData());
@@ -32,7 +32,7 @@ public class ComplaintController {
     }
 
     @GetMapping(path = "/select")
-    public String ComplaintList(Model model, @RequestParam(value = "cplId") Integer cplId) {
+    public String ComplaintList(Model model, HttpServletRequest req, HttpServletResponse res, @RequestParam(value = "cplId") Integer cplId) {
 
         var result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/select/" + cplId, null,
                 req, res ,HttpMethod.GET);
