@@ -39,7 +39,7 @@
           <a class="nav-link" href="/user/register">입주민등록</a>
           </li>
           <li class="nav-item">
-          <a class="nav-link" href="login1.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;로그인</a>
+          <a class="nav-link" href="/login">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;로그인</a>
           </li>
           <li class="nav-item">
           <a class="nav-link" href="join1.html">회원가입</a>
@@ -76,29 +76,29 @@
         th:with="start=${T(Math).floor(result.number/10)*10 + 1},
                     last=(${start + 9 < result.totalPages ? start + 9 : result.totalPages})">
         <li class="page-item">
-            <a class="page-link" th:href="@{/boards(page=1)}" aria-label="First">
+            <a class="page-link" th:href="@{/mgfee/getlist(page=1)}" aria-label="First">
                 <span aria-hidden="true">First</span>
             </a>
         </li>
 
         <li class="page-item" th:class="${result.first} ? 'disabled'">
-            <a class="page-link" th:href="${result.first} ? '#' :@{/boards(page=${result.number})}" aria-label="Previous">
+            <a class="page-link" th:href="${result.first} ? '#' :@{/mgfee/getlist(page=${result.number})}" aria-label="Previous">
                 <span aria-hidden="true">&lt;</span>
             </a>
         </li>
 
         <li class="page-item" th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == result.number + 1} ? 'active'">
-            <a class="page-link" th:text="${page}" th:href="@{/boards(page=${page})}"></a>
+            <a class="page-link" th:text="${page}" th:href="@{/mgfee/getlist(page=${page})}"></a>
         </li>
 
         <li class="page-item" th:class="${result.last} ? 'disabled'">
-            <a class="page-link" th:href="${result.last} ? '#' : @{/boards(page=${result.number + 2})}" aria-label="Next">
+            <a class="page-link" th:href="${result.last} ? '#' : @{/mgfee/getlist(page=${result.number + 2})}" aria-label="Next">
                 <span aria-hidden="true">&gt;</span>
             </a>
         </li>
 
         <li class="page-item">
-            <a class="page-link" th:href="@{/boards(page=${result.totalPages})}" aria-label="Last">
+            <a class="page-link" th:href="@{/mgfee/getlist(page=${result.totalPages})}" aria-label="Last">
                 <span aria-hidden="true">Last</span>
             </a>
         </li>
