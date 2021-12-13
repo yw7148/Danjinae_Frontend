@@ -3,7 +3,6 @@ package com.danjinae.web.complaint.Controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.danjinae.web.SETTING;
 import com.danjinae.web.HttpRequest.HttpSender;
 import com.danjinae.web.HttpRequest.Response.MyHttpResponse;
 import com.danjinae.web.complaint.RequestDTO.ComplaintProcess;
@@ -26,7 +25,7 @@ public class ComplaintController {
     @GetMapping(path = "")
     public String ComplaintIndex(@RequestParam(value = "page", defaultValue = "0") Integer page, HttpServletRequest req, HttpServletResponse res, Model model) {
 
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/get/" + SETTING.APT_ID + "?page=" + page, null, req, res ,HttpMethod.GET);
+        var result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/getmanagerlist?page=" + page, null, req, res ,HttpMethod.GET);
         model.addAttribute("result", result.getData());
         return "complaint1";
     }

@@ -117,10 +117,10 @@ public class HttpSender {
 
         try {
             HttpEntity<Object> request = new HttpEntity<Object>(null, header);
-            var result = restTemplate.exchange("http://101.101.219.69:8080/user/validate", HttpMethod.POST, request,
+            var result = restTemplate.exchange("http://101.101.219.69:8080/user/validate", HttpMethod.GET, request,
                     Boolean.class).getBody();
 
-            return new MyHttpResponse(result, "", 200);
+            return new MyHttpResponse(result, "성공", 200);
         } 
         catch (HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
@@ -128,15 +128,15 @@ public class HttpSender {
                     header.add(JwtToken.REFRESH_TOKEN_NAME, refreshToken);
                     HttpEntity<Object> request = new HttpEntity<Object>(null, header);
 
-                    HttpEntity<MyHttpResponse> response = restTemplate.exchange("http://101.101.219.69:8080/user/validate",
-                            HttpMethod.POST, request, MyHttpResponse.class);
+                    HttpEntity<Boolean> response = restTemplate.exchange("http://101.101.219.69:8080/user/validate",
+                            HttpMethod.GET, request, Boolean.class);
                     var isToken = response.getHeaders().get(JwtToken.ACCESS_TOKEN_NAME);
 
                     if (isToken != null)
                         HttpServletResponse
                                 .addCookie(cookieUtil.createCookie(JwtToken.ACCESS_TOKEN_NAME, isToken.get(0), false));
 
-                    return response.getBody();
+                    return new MyHttpResponse(response.getBody(), "성공", 200);
                 } catch (HttpClientErrorException ex) {
                     if (ex.getStatusCode() == HttpStatus.UNAUTHORIZED) {
                         return new MyHttpResponse(false, "로그인 중이 아닙니다.", 201);

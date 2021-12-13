@@ -5,7 +5,6 @@ import com.danjinae.web.HttpRequest.Response.MyHttpResponse;
 import com.danjinae.web.HttpRequest.loginDTO.JwtToken;
 import com.danjinae.web.HttpRequest.loginService.CookieUtil;
 import com.danjinae.web.home.dto.LoginRequest;
-import com.danjinae.web.SETTING;
 import com.danjinae.web.notice.RequestDTO.Notice;
 
 import java.io.UnsupportedEncodingException;
@@ -39,20 +38,6 @@ public class HomeController {
     @RequestParam(value = "message") String message
   ) {
     model.addAttribute("message", message);
-    model.addAttribute("redirectUri", "javascript:history.back();");
-    return "alert";
-  }
-
-  @GetMapping(path = "/changeApt")
-  public String ChangeAptId(Model model) {
-    if (SETTING.APT_ID == 1) {
-      SETTING.APT_ID = 2;
-      SETTING.MGR_ID = 2;
-    } else if (SETTING.APT_ID == 2) {
-      SETTING.APT_ID = 1;
-      SETTING.MGR_ID = 1;
-    }
-    model.addAttribute("message", "매니저 및 아파트 ID: " + SETTING.APT_ID);
     model.addAttribute("redirectUri", "javascript:history.back();");
     return "alert";
   }
@@ -115,6 +100,34 @@ public class HomeController {
       }
 		}
 	}
+
+  @GetMapping(path = "/logout")
+  public String Logout(Model model , HttpServletRequest request, HttpServletResponse response)
+  {
+    try {
+			MyHttpResponse result = httpSender.defHttpRequest("http://101.101.219.69:8080/user/logout", null,
+					request, response, HttpMethod.GET);
+			
+			model.addAttribute("result", result.getResponse());	
+		} catch (Exception e) 
+		{
+
+		} finally {
+			Cookie accessCookie = cookieUtil.createCookie(JwtToken.ACCESS_TOKEN_NAME, null, false);
+        	Cookie refreshCookie = cookieUtil.createCookie(JwtToken.REFRESH_TOKEN_NAME, null, false);
+        	response.addCookie(accessCookie);
+			response.addCookie(refreshCookie);
+		}
+		
+		return "redirect:" + "/";
+
+  }
+
+  @GetMapping(path = "/join")
+  public String JoinManager()
+  {
+    return "join1";
+  }
 
   @GetMapping(path = "/testcookie")
   public @ResponseBody Object TestCookie(HttpServletRequest request)
