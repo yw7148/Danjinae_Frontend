@@ -19,7 +19,7 @@ public class WebMVCConfig implements WebMvcConfigurer  {
     public void addInterceptors(InterceptorRegistry registry) {
 
         List<String> URL_PATTERNS = Arrays.asList("/**");
-        registry.addInterceptor(LoginInterceptor()).addPathPatterns(URL_PATTERNS).excludePathPatterns("/join/**" ,"/login/**", "/testcookie");
+        registry.addInterceptor(LoginInterceptor()).addPathPatterns(URL_PATTERNS).excludePathPatterns("/join/**" ,"/login/**", "/testcookie" , "/aptchoice", "/err/**");
     }
     
     @Bean

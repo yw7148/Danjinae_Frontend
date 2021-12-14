@@ -14,7 +14,7 @@
 	
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#" style="color: lightskyblue"><strong>단지네</strong></a>
+    <a class="navbar-brand" href="/" style="color: lightskyblue"><strong>단지네</strong></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -41,12 +41,12 @@
 	</br>
 
 
-<form action="#######" method="post">
-	<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;아이디&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp; <input type="text" placeholder="아이디를 입력하세요." style="width:220px;height:40px;" name="id"></p>
+<form action="/join/result" method="post">
+  <input type="hidden" th:value="${aptId}">
+	<p>&nbsp;&nbsp;&nbsp;&nbsp;전화번호&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp; <input type="text" placeholder="아이디를 입력하세요." style="width:220px;height:40px;" name="phone"></p>
 	<p>&nbsp;&nbsp;&nbsp;&nbsp;비밀번호&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp; <input type="password" placeholder="비밀번호를 입력하세요." style="width:220px;height:40px;" name="password"></p>
 	<p>&nbsp;&nbsp;비밀번호 확인&nbsp;:&nbsp; <input type="password" placeholder="비밀번호를 입력하세요." style="width:220px;height:40px;" name="passwordcheck"></p>
 	<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이름&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" placeholder="이름을 입력하세요." style="width:220px;height:40px;" name="name"></p>
-	<p>&nbsp;&nbsp;&nbsp;&nbsp;전화번호&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp; <input type="tel" placeholder="전화번호를 입력하세요." style="width:220px;height:40px;" name="number"></p>
 	<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이메일&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp; <input type="email" placeholder="이메일을 입력하세요." style="width:220px;height:40px;" name="email"></p>
 	<p>&nbsp;&nbsp;&nbsp;재직증명서&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;<input type="file"style="width:220px;height:40px;" name="photo"></p>
 	<input type="submit" value="회원가입" style="position: relative; left: 150px; top: 20px;">

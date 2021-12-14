@@ -4,12 +4,11 @@ import com.danjinae.web.HttpRequest.HttpSender;
 import com.danjinae.web.HttpRequest.Response.MyHttpResponse;
 import com.danjinae.web.HttpRequest.loginDTO.JwtToken;
 import com.danjinae.web.HttpRequest.loginService.CookieUtil;
+import com.danjinae.web.home.dto.JoinRequest;
 import com.danjinae.web.home.dto.LoginRequest;
 import com.danjinae.web.notice.RequestDTO.Notice;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,6 +36,7 @@ public class HomeController {
     Model model,
     @RequestParam(value = "message") String message
   ) {
+
     model.addAttribute("message", message);
     model.addAttribute("redirectUri", "javascript:history.back();");
     return "alert";
@@ -70,69 +70,131 @@ public class HomeController {
   }
 
   @PostMapping(path = "/login/result")
-	public String LoginToServer(HttpServletRequest request, LoginRequest bodydata, HttpServletResponse response,
-			Model model) {
-		try {
-			String username = bodydata.getId();
-			String password = bodydata.getPassword();
-			MyHttpResponse result = httpSender.LoginGetJwt(username, password);
-			if (result.getResponse()) {
-				JwtToken myToken = (JwtToken) result.getData();
-				Cookie accessToken = cookieUtil.createCookie(JwtToken.ACCESS_TOKEN_NAME, myToken.getAccessToken(),
-						false);
-				Cookie refreshToken = cookieUtil.createCookie(JwtToken.REFRESH_TOKEN_NAME, myToken.getRefreshToken(),
-						false);
+  public String LoginToServer(
+    HttpServletRequest request,
+    LoginRequest bodydata,
+    HttpServletResponse response,
+    Model model
+  ) {
+    try {
+      String username = bodydata.getId();
+      String password = bodydata.getPassword();
+      MyHttpResponse result = httpSender.LoginGetJwt(username, password);
+      if (result.getResponse()) {
+        JwtToken myToken = (JwtToken) result.getData();
+        Cookie accessToken = cookieUtil.createCookie(
+          JwtToken.ACCESS_TOKEN_NAME,
+          myToken.getAccessToken(),
+          false
+        );
+        Cookie refreshToken = cookieUtil.createCookie(
+          JwtToken.REFRESH_TOKEN_NAME,
+          myToken.getRefreshToken(),
+          false
+        );
 
-				response.addCookie(accessToken);
-				response.addCookie(refreshToken);
+        response.addCookie(accessToken);
+        response.addCookie(refreshToken);
 
-				var fromUri = request.getSession().getAttribute("from");
-				return "redirect:" + (fromUri != null ? (String) fromUri : "/");
-			} else {
-				throw new Exception(result.getMessage());
-			}
-
-		} catch (Exception e) {
-			try {
-        return "redirect:/err/report?message=" + URLDecoder.decode(e.getMessage(), "UTF-8" );
+        var fromUri = request.getSession().getAttribute("from");
+        return "redirect:" + (fromUri != null ? (String) fromUri : "/");
+      } else {
+        throw new Exception(result.getMessage());
+      }
+    } catch (Exception e) {
+      try {
+        return (
+          "redirect:/err/report?message=" +
+          URLDecoder.decode(e.getMessage(), "UTF-8")
+        );
       } catch (UnsupportedEncodingException e1) {
         return "redirect:/err/report?message=알수없는오류";
       }
-		}
-	}
+    }
+  }
 
   @GetMapping(path = "/logout")
-  public String Logout(Model model , HttpServletRequest request, HttpServletResponse response)
-  {
+  public String Logout(
+    Model model,
+    HttpServletRequest request,
+    HttpServletResponse response
+  ) {
     try {
-			MyHttpResponse result = httpSender.defHttpRequest("http://101.101.219.69:8080/user/logout", null,
-					request, response, HttpMethod.GET);
-			
-			model.addAttribute("result", result.getResponse());	
-		} catch (Exception e) 
-		{
+      MyHttpResponse result = httpSender.defHttpRequest(
+        "http://101.101.219.69:8080/user/logout",
+        null,
+        request,
+        response,
+        HttpMethod.GET
+      );
 
-		} finally {
-			Cookie accessCookie = cookieUtil.createCookie(JwtToken.ACCESS_TOKEN_NAME, null, false);
-        	Cookie refreshCookie = cookieUtil.createCookie(JwtToken.REFRESH_TOKEN_NAME, null, false);
-        	response.addCookie(accessCookie);
-			response.addCookie(refreshCookie);
-		}
-		
-		return "redirect:" + "/";
+      model.addAttribute("result", result.getResponse());
+    } catch (Exception e) {} finally {
+      Cookie accessCookie = cookieUtil.createCookie(
+        JwtToken.ACCESS_TOKEN_NAME,
+        null,
+        false
+      );
+      Cookie refreshCookie = cookieUtil.createCookie(
+        JwtToken.REFRESH_TOKEN_NAME,
+        null,
+        false
+      );
+      response.addCookie(accessCookie);
+      response.addCookie(refreshCookie);
+    }
 
+    return "redirect:" + "/";
+  }
+
+  @GetMapping(path = "/aptchoice")
+  public String JoinManagerAptChoice(@RequestParam(value = "page", defaultValue = "0") Integer page, HttpServletRequest req, HttpServletResponse res, Model model) {
+    var result = httpSender.defHttpRequest("http://101.101.219.69:8080/user/aptchoice?page=" + page, null, req, res ,HttpMethod.GET);
+        model.addAttribute("result", result.getData());
+    return "aptchoice";
   }
 
   @GetMapping(path = "/join")
-  public String JoinManager()
-  {
+  public String JoinManager(@RequestParam("aptId") Integer aptId, Model model) {
+    model.addAttribute("aptId", aptId);
     return "join1";
   }
 
-  @GetMapping(path = "/testcookie")
-  public @ResponseBody Object TestCookie(HttpServletRequest request)
-  {
-    return request.getCookies();
+  @PostMapping(path = "/join/result")
+  public String JoinManagerResult(
+    HttpServletRequest request,
+    JoinRequest bodydata,
+    HttpServletResponse response,
+    Model model
+  ) {
+    try {
+      MyHttpResponse result = httpSender.defHttpRequest(
+        "http://101.101.219.69:8080/user/joinmanager",
+        bodydata,
+        request,
+        response,
+        HttpMethod.GET
+      );
+
+      if (result.getResponse()) {
+        return "joincp";
+      } else {
+        throw new Exception(result.getMessage());
+      }
+    } catch (Exception e) {
+      try {
+        return (
+          "redirect:/err/report?message=" +
+          URLDecoder.decode(e.getMessage(), "UTF-8")
+        );
+      } catch (UnsupportedEncodingException e1) {
+        return "redirect:/err/report?message=알수없는오류";
+      }
+    }
   }
 
+  @GetMapping(path = "/testcookie")
+  public @ResponseBody Object TestCookie(HttpServletRequest request) {
+    return request.getCookies();
+  }
 }
