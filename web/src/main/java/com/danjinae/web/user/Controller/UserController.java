@@ -8,7 +8,6 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.danjinae.web.SETTING;
 import com.danjinae.web.HttpRequest.HttpSender;
 import com.danjinae.web.HttpRequest.loginDTO.JwtToken;
 import com.danjinae.web.HttpRequest.loginService.CookieUtil;
@@ -37,7 +36,6 @@ public class UserController {
 
     @PostMapping(path = "/registerResult")
     public String AddNewNotice(Model model, HttpServletRequest req, HttpServletResponse res, NewUser newUser) {
-        newUser.setMgrId(SETTING.MGR_ID);
         try {
 
             SimpleDateFormat dtFormat = new SimpleDateFormat("yyMMdd");

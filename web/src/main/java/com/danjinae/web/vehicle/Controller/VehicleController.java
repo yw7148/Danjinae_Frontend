@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.danjinae.web.SETTING;
 import com.danjinae.web.HttpRequest.HttpSender;
 import com.danjinae.web.vehicle.DTO.NewVehicle;
 import com.danjinae.web.vehicle.DTO.NewVehicleRequest;
@@ -30,10 +29,13 @@ public class VehicleController {
     }
 
     @GetMapping(path = "/check")
-    public String VehicleSearch(Model model) {
+    public String VehicleSearch(HttpServletRequest req, HttpServletResponse res, Model model, @RequestParam(value = "page", defaultValue = "0") Integer page) {
+        var result = hSender.defHttpRequest("http://101.101.219.69:8080/vehicle/total-list?page=" + page, null,
+                req, res ,HttpMethod.GET);
+        model.addAttribute("result", result.getData());
         return "car-check";
     }
-
+    
     @GetMapping(path = "/getlist")
     public String VehicleList(HttpServletRequest req, HttpServletResponse res, Model model, @RequestParam("number") Integer carNumber, @RequestParam(value = "page", defaultValue = "0") Integer page) {
         var result = hSender.defHttpRequest("http://101.101.219.69:8080/vehicle/select/list?number=" + carNumber + "&page=" + page, null,
@@ -41,6 +43,23 @@ public class VehicleController {
         model.addAttribute("result", result.getData());
         model.addAttribute("number", carNumber);
         return "car-check2";
+    }
+
+    @GetMapping(path = "/needaccept")
+    public String NeedAcceptVehicleList(HttpServletRequest req, HttpServletResponse res, Model model, @RequestParam(value = "page", defaultValue = "0") Integer page) {
+        var result = hSender.defHttpRequest("http://101.101.219.69:8080/vehicle/notaccepted?page=" + page, null,
+                req, res ,HttpMethod.GET);
+        model.addAttribute("result", result.getData());
+        return "car-unaccepted";
+    }
+
+    @GetMapping(path = "/accept")
+    public String AcceptVehicle(HttpServletRequest req, HttpServletResponse res, Model model, @RequestParam(value = "vehicleId") Integer vehicleId) {
+        var result = hSender.defHttpRequest("http://101.101.219.69:8080/vehicle/accept?vehicleId=" + vehicleId, null,
+                req, res ,HttpMethod.PUT);
+        model.addAttribute("result", result.getData());
+
+        return "car-uncheckedcp";
     }
 
     @GetMapping(path = "/selectvehicle")
@@ -60,7 +79,6 @@ public class VehicleController {
     public String AddNewNotice(HttpServletRequest req, HttpServletResponse res, Model model, NewVehicle newVehicle) {
         NewVehicleRequest request = new NewVehicleRequest();
         {
-            request.setMgrid(SETTING.MGR_ID);
             request.setNumber(newVehicle.getCarnumber());
             request.setPhone(newVehicle.getCarphone());
         }

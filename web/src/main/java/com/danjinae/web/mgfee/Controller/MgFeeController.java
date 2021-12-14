@@ -5,7 +5,6 @@ package com.danjinae.web.mgfee.Controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.danjinae.web.SETTING;
 import com.danjinae.web.HttpRequest.HttpSender;
 import com.danjinae.web.mgfee.RequestDTO.MgFee;
 import com.danjinae.web.mgfee.RequestDTO.NewMgFeeRequest;
@@ -32,7 +31,7 @@ public class MgFeeController {
 
     @GetMapping(path = "/getlist")
     public String GetMgFeeList(@RequestParam(value = "page", defaultValue = "0") Integer page, HttpServletRequest req, HttpServletResponse res, Model model ) {
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/mgfee/getmanagermgfee?aptId=" + SETTING.APT_ID + "&page=" + page, null,
+        var result = hSender.defHttpRequest("http://101.101.219.69:8080/mgfee/getmanagermgfee?page=" + page, null,
                 req, res ,HttpMethod.GET);
         model.addAttribute("result", result.getData());
         return "cost-check";
@@ -48,7 +47,6 @@ public class MgFeeController {
         NewMgFeeRequest request = new NewMgFeeRequest();
         {
             request.setAddress(newMgFee.getDong() + "동" + newMgFee.getHo() + "호");
-            request.setAptId(SETTING.APT_ID);
             request.setCatId(newMgFee.getCatId());
             request.setContent(newMgFee.getContent());
             request.setFee(newMgFee.getFee());
