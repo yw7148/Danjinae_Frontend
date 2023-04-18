@@ -120,8 +120,8 @@ public class HomeController {
     HttpServletResponse response
   ) {
     try {
-      MyHttpResponse result = httpSender.defHttpRequest(
-        "http://101.101.219.69:8080/user/logout",
+      MyHttpResponse result = httpSender.httpReqToDanjinaeBackend(
+        "/user/logout",
         null,
         request,
         response,
@@ -149,8 +149,8 @@ public class HomeController {
 
   @GetMapping(path = "/aptchoice")
   public String JoinManagerAptChoice(@RequestParam(value = "page", defaultValue = "0") Integer page, HttpServletRequest req, HttpServletResponse res, Model model) {
-    var result = httpSender.defHttpRequest("http://101.101.219.69:8080/user/aptchoice?page=" + page, null, req, res ,HttpMethod.GET);
-        model.addAttribute("result", result.getData());
+    var result = httpSender.httpReqToDanjinaeBackend("/user/aptchoice?page=" + page, null, req, res ,HttpMethod.GET);
+    model.addAttribute("result", result.getData());
     return "aptchoice";
   }
 
@@ -168,8 +168,8 @@ public class HomeController {
     Model model
   ) {
     try {
-      MyHttpResponse result = httpSender.defHttpRequest(
-        "http://101.101.219.69:8080/user/joinmanager",
+      MyHttpResponse result = httpSender.httpReqToDanjinaeBackend(
+        "/user/joinmanager",
         bodydata,
         request,
         response,

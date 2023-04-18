@@ -25,7 +25,7 @@ public class ComplaintController {
     @GetMapping(path = "")
     public String ComplaintIndex(@RequestParam(value = "page", defaultValue = "0") Integer page, HttpServletRequest req, HttpServletResponse res, Model model) {
 
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/getmanagerlist?page=" + page, null, req, res ,HttpMethod.GET);
+        var result = hSender.httpReqToDanjinaeBackend("/complaint/getmanagerlist?page=" + page, null, req, res ,HttpMethod.GET);
         model.addAttribute("result", result.getData());
         return "complaint1";
     }
@@ -33,7 +33,7 @@ public class ComplaintController {
     @GetMapping(path = "/select")
     public String ComplaintList(Model model, HttpServletRequest req, HttpServletResponse res, @RequestParam(value = "cplId") Integer cplId) {
 
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/select/" + cplId, null,
+        var result = hSender.httpReqToDanjinaeBackend("/complaint/select/" + cplId, null,
                 req, res ,HttpMethod.GET);
         model.addAttribute("result", result.getData());
         return "complaint2";
@@ -41,7 +41,7 @@ public class ComplaintController {
 
     @PostMapping(path = "/newprocess")
     public String AddNewProcess(Model model, HttpServletRequest req, HttpServletResponse res, ComplaintProcess newProcess) {
-        MyHttpResponse result = hSender.defHttpRequest("http://101.101.219.69:8080/complaint/addprocess", newProcess,
+        MyHttpResponse result = hSender.httpReqToDanjinaeBackend("/complaint/addprocess", newProcess,
                 req, res ,HttpMethod.POST);
         model.addAttribute("result", result.getData());
         if (!(Boolean) result.getData())

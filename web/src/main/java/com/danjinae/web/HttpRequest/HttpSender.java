@@ -4,6 +4,7 @@ import java.net.http.HttpResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import com.danjinae.web.HttpRequest.Response.MyHttpResponse;
 import com.danjinae.web.HttpRequest.loginDTO.JwtToken;
@@ -11,6 +12,7 @@ import com.danjinae.web.HttpRequest.loginDTO.RequestLoginUser;
 import com.danjinae.web.HttpRequest.loginService.CookieUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -25,18 +27,22 @@ public class HttpSender {
     @Autowired
     CookieUtil cookieUtil;
 
+    @Value("${danjinae.backend.url}")
+    String backendUrl;
+
     RestTemplate restTemplate = new RestTemplate();
 
-    public MyHttpResponse defHttpRequest(String url, Object datas , HttpServletRequest HttpServletRequest, HttpServletResponse HttpServletResponse, HttpMethod method)
+    public MyHttpResponse httpReqToDanjinaeBackend(String path, Object datas , HttpServletRequest HttpServletRequest, HttpServletResponse HttpServletResponse, HttpMethod method)
     {
-        String accessToken;
-        String refreshToken;
+        if(!path.startsWith("/")) path = "/" + path;
+        String url = backendUrl + path;
+
+        String accessToken = "";
+        String refreshToken = "";
         try{
             accessToken = cookieUtil.getCookie(HttpServletRequest, JwtToken.ACCESS_TOKEN_NAME).getValue();
             refreshToken = cookieUtil.getCookie(HttpServletRequest, JwtToken.REFRESH_TOKEN_NAME).getValue();
-        }catch(Exception e)
-        {
-            return new MyHttpResponse(false, "로그인 해주세요.", 408);
+        }catch(NullPointerException e) {
         }
 
         HttpHeaders header = new HttpHeaders();

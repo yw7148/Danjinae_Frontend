@@ -31,7 +31,7 @@ public class MgFeeController {
 
     @GetMapping(path = "/getlist")
     public String GetMgFeeList(@RequestParam(value = "page", defaultValue = "0") Integer page, HttpServletRequest req, HttpServletResponse res, Model model ) {
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/mgfee/getmanagermgfee?page=" + page, null,
+        var result = hSender.httpReqToDanjinaeBackend("/mgfee/getmanagermgfee?page=" + page, null,
                 req, res ,HttpMethod.GET);
         model.addAttribute("result", result.getData());
         return "cost-check";
@@ -52,7 +52,7 @@ public class MgFeeController {
             request.setFee(newMgFee.getFee());
             request.setDate(newMgFee.getDate());
         }
-        var result = hSender.defHttpRequest("http://101.101.219.69:8080/mgfee/setManagerMgFee", request,
+        var result = hSender.httpReqToDanjinaeBackend("/mgfee/setManagerMgFee", request,
                 req, res ,HttpMethod.POST);
         model.addAttribute("result", result.getData());
 

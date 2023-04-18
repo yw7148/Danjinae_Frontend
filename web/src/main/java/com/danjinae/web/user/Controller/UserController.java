@@ -48,7 +48,7 @@ public class UserController {
             e.printStackTrace();
         }
 
-        var result = httpSender.defHttpRequest("http://101.101.219.69:8080/user/add", newUser, req, res ,HttpMethod.POST);
+        var result = httpSender.httpReqToDanjinaeBackend("/user/add", newUser, req, res ,HttpMethod.POST);
         model.addAttribute("result", result.getData());
         if (!(Boolean) result.getData())
             return "redirect:/err/report?message=" + result.getMessage();

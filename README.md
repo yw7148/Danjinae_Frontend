@@ -1,7 +1,6 @@
-> 스마트한 아파트 관리 서비스 '단지네'의 Web Server (Frontend) 관리 리포지토리입니다.
 > *forked from https://github.com/Danjinae/Frontend*
 
-> 스마트한 아파트 관리 서비스 '단지네'의 WAS (Backend) 관리 리포지토리입니다.  
+> 스마트한 아파트 관리 서비스 '단지네'의 Web Server (Frontend) 관리 리포지토리입니다.
 
 <h1>2021 Brain 팀 프로젝트: 단지네</h1>
 
