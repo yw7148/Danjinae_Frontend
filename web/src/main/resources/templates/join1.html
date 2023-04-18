@@ -42,7 +42,7 @@
 
 
 <form action="/join/result" method="post">
-  <input type="hidden" th:value="${aptId}">
+  <input type="hidden" name="aptId" th:value="${aptId}">
 	<p>&nbsp;&nbsp;&nbsp;&nbsp;전화번호&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp; <input type="text" placeholder="아이디를 입력하세요." style="width:220px;height:40px;" name="phone"></p>
 	<p>&nbsp;&nbsp;&nbsp;&nbsp;비밀번호&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp; <input type="password" placeholder="비밀번호를 입력하세요." style="width:220px;height:40px;" name="password"></p>
 	<p>&nbsp;&nbsp;비밀번호 확인&nbsp;:&nbsp; <input type="password" placeholder="비밀번호를 입력하세요." style="width:220px;height:40px;" name="passwordcheck"></p>

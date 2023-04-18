@@ -9,6 +9,8 @@ import com.danjinae.web.home.dto.LoginRequest;
 import com.danjinae.web.notice.RequestDTO.Notice;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.yaml.snakeyaml.util.UriEncoder;
 
 @Controller
 public class HomeController {
@@ -166,14 +169,14 @@ public class HomeController {
     JoinRequest bodydata,
     HttpServletResponse response,
     Model model
-  ) {
+  ) throws UnsupportedEncodingException {
     try {
       MyHttpResponse result = httpSender.httpReqToDanjinaeBackend(
         "/user/joinmanager",
         bodydata,
         request,
         response,
-        HttpMethod.GET
+        HttpMethod.POST
       );
 
       if (result.getResponse()) {
@@ -183,12 +186,9 @@ public class HomeController {
       }
     } catch (Exception e) {
       try {
-        return (
-          "redirect:/err/report?message=" +
-          URLDecoder.decode(e.getMessage(), "UTF-8")
-        );
+        return "redirect:/err/report?message=" + URLEncoder.encode(e.getMessage(), "UTF-8");
       } catch (UnsupportedEncodingException e1) {
-        return "redirect:/err/report?message=알수없는오류";
+        return URLEncoder.encode("redirect:/err/report?message=알수없는오류", "UTF-8");
       }
     }
   }

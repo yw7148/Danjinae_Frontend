@@ -96,7 +96,7 @@ public class HttpSender {
             HttpHeaders reqheader = new HttpHeaders();
             HttpEntity<RequestLoginUser> request = new HttpEntity<RequestLoginUser>(reqUser, reqheader);
 
-            HttpEntity<Boolean> response = restTemplate.exchange("http://101.101.219.69:8080/user/login",
+            HttpEntity<Boolean> response = restTemplate.exchange(backendUrl + "/user/login",
                     HttpMethod.POST, request, Boolean.class);
 
             Boolean resbody = response.getBody();
@@ -123,7 +123,7 @@ public class HttpSender {
 
         try {
             HttpEntity<Object> request = new HttpEntity<Object>(null, header);
-            var result = restTemplate.exchange("http://101.101.219.69:8080/user/validate", HttpMethod.GET, request,
+            var result = restTemplate.exchange(backendUrl + "/user/validate", HttpMethod.GET, request,
                     Boolean.class).getBody();
 
             return new MyHttpResponse(result, "성공", 200);
@@ -134,7 +134,7 @@ public class HttpSender {
                     header.add(JwtToken.REFRESH_TOKEN_NAME, refreshToken);
                     HttpEntity<Object> request = new HttpEntity<Object>(null, header);
 
-                    HttpEntity<Boolean> response = restTemplate.exchange("http://101.101.219.69:8080/user/validate",
+                    HttpEntity<Boolean> response = restTemplate.exchange(backendUrl + "/user/validate",
                             HttpMethod.GET, request, Boolean.class);
                     var isToken = response.getHeaders().get(JwtToken.ACCESS_TOKEN_NAME);
 
@@ -165,7 +165,7 @@ public class HttpSender {
             HttpHeaders reqheader = new HttpHeaders();
             HttpEntity<RequestLoginUser> request = new HttpEntity<RequestLoginUser>(reqUser, reqheader);
 
-            HttpEntity<MyHttpResponse> response = restTemplate.exchange("http://101.101.219.69:8080/user/logout",
+            HttpEntity<MyHttpResponse> response = restTemplate.exchange(backendUrl + "/user/logout",
                     HttpMethod.POST, request, MyHttpResponse.class);
             MyHttpResponse resbody = response.getBody();
 

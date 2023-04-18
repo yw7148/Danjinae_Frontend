@@ -37,7 +37,6 @@ public class UserController {
     @PostMapping(path = "/registerResult")
     public String AddNewNotice(Model model, HttpServletRequest req, HttpServletResponse res, NewUser newUser) {
         try {
-
             SimpleDateFormat dtFormat = new SimpleDateFormat("yyMMdd");
             SimpleDateFormat newDtFormat = new SimpleDateFormat("yyyy-MM-dd");
             // String 타입을 Date 타입으로 변환
